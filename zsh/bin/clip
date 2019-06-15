@@ -1,0 +1,2 @@
+#!/usr/bin/env zsh
+echo -n "\e]52;c;$(cat $1 | base64 | tr -d '\r\n')\e\\"

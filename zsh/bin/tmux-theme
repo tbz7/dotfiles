@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+if [[ -z $THEME && -f ~/.theme ]] read THEME < ~/.theme
+declare -A theme=($(cat ~/.zsh/themes/${THEME:-hybrid}))
+for c (fg bg afg abg bfg bbg cfg cbg) eval "$c=#$theme[$c]"
+
+x="$(tmux show -gvq @status-x)"
+y="$(tmux show -gvq @status-y)"
+z="$(tmux show -gvq @status-z)"
+[[ $NO_CUSTOM_FONT == true ]] && l='' r='' || l='' r=''
+
+tmux set -g message-command-style "fg=$bfg,bg=$bbg"
+tmux set -g message-style "fg=$bfg,bg=$bbg"
+tmux set -g mode-style 'reverse'
+tmux set -g pane-active-border-style "fg=$bfg,bg=$bg"
+tmux set -g pane-border-style "fg=$bbg,bg=$bg"
+tmux set -g status-left ''
+tmux set -g status-right \
+    "$x ${y:+#[fg=$bbg]$l#[fg=$bfg]#[bg=$bbg] $y }${z:+#[fg=$abg]$l#[fg=$afg,bg=$abg] $z }"
+tmux set -g status-right-length 100
+tmux set -g status-style "fg=$cfg,bg=$cbg"
+tmux set -g window-status-current-format "#[fg=$cbg,bg=$bbg]$r#[fg=$bfg]  #W  #[fg=$bbg,bg=$cbg]$r"
+tmux set -g window-status-format ' #I #W   '
+tmux set -g window-status-separator ''
+tmux set -g window-style "fg=$fg,bg=$bg"

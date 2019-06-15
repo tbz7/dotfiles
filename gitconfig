@@ -1,0 +1,24 @@
+[core]                                                       # vim: ft=gitconfig
+  excludesfile = ~/.gitignore
+
+[alias]
+  serve = daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
+
+[diff]
+  guitool = meld
+  tool = vimdiff
+
+[diff "ignore"]
+  command = true
+
+[include]
+  path = ~/.gitidentity
+
+[merge]
+  tool = meld
+
+[mergetool]
+  keepBackup = false
+
+[pull]
+  rebase = true

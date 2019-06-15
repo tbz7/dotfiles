@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+for i in {000..255}; do
+  print -P "$i: %F{$i}${1-All work and no play makes Jack a dull boy}%f"
+done | less -R

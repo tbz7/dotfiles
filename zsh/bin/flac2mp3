@@ -1,0 +1,2 @@
+#!/usr/bin/env zsh
+for f; flac -d - < $f | lame -b320 - "${f%.flac}.mp3"

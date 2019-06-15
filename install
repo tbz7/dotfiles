@@ -1,0 +1,43 @@
+#!/usr/bin/env zsh
+
+cd $0:A:h
+
+if [[ $1 == --clean ]] git clean -ffdX && rm -rfv ~/.terminfo
+
+# symlinks
+setopt extendedglob
+for f (*~install(.)) ln -sfv $PWD/$f ~/.$f
+for d (*(/)) rm -rf ~/.$d && ln -sfv $PWD/$d ~/.$d
+rm -rf ~/.config/nvim && mkdir -p ~/.config && ln -s $PWD/vim ~/.config/nvim
+
+# git
+function populate-gitidentity {
+  local p="%F{blue}$2:%f" v
+  if ! git config -f ~/.gitidentity $1 > /dev/null; then
+    vared -p "${(%)p} " -c v
+    if [[ -n $v ]] git config -f ~/.gitidentity $1 $v
+  fi
+}
+echo
+populate-gitidentity user.name 'Enter default user.name for git'
+populate-gitidentity user.email 'Enter default user.email for git'
+echo
+
+# terminfo
+if ! infocmp -x tmux-256color &> /dev/null | grep -q Ms= &> /dev/null; then
+  tic -xo ~/.terminfo \
+      =(curl 'https://raw.githubusercontent.com/mirror/ncurses/06078d3fa68db669ed37178c01873546b4b28745/misc/terminfo.src' \
+          | perl -pe 's/(pccon\+base\|.*,)/$1\n\tsgr0=\\E[m,/')
+fi
+
+# vim
+if ! [[ -f ~/.vim/autoload/plug.vim ]]; then
+  curl -Lo ~/.vim/autoload/plug.vim \
+      'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  vim -c 'se ls=0 nonu cc=|au BufAdd * on' +PlugInstall +q
+fi
+
+# zsh
+if ! [[ -d ~/.zsh/plugins ]]; then
+  zsh -ci 'run-hooks precmd; plug update'
+fi

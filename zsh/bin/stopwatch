@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+TIMEFMT='%E'
+
+while true; do
+  echo -n "Ready                   "
+  read -sk1
+  echo -n "\rTiming...               "
+  time (read -sk1; echo -n "\r                               \r")
+done
