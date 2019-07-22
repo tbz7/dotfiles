@@ -1,4 +1,4 @@
-if ($TMUX != '' || $SSH_CONNECTION != '' || !has('clipboard')) && exists('##TextYankPost')
+if $TMUX != '' || $SSH_CONNECTION != '' || !has('clipboard')
   augroup Clipboard
     au! TextYankPost * call system('clip > /dev/tty', @")
     if $TMUX != ''

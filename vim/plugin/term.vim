@@ -14,12 +14,10 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
 " Bracketed paste
-if has('patch-8.0.0302')
-  let &t_BE = "\<Esc>[?2004h"
-  let &t_BD = "\<Esc>[?2004l"
-  let &t_PS = "\<Esc>[200~"
-  let &t_PE = "\<Esc>[201~"
-endif
+let &t_BE = "\<Esc>[?2004h"
+let &t_BD = "\<Esc>[?2004l"
+let &t_PS = "\<Esc>[200~"
+let &t_PE = "\<Esc>[201~"
 
 " Focus events
 let &t_ti .= "\<Esc>[?1004h"

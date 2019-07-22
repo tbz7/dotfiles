@@ -1,10 +1,4 @@
-if [[ $TERM == xterm-256color ]]; then
-  if [[ -n $VTE_VERSION ]]; then
-    TERM=vte-256color
-  elif [[ $TERM_PROGRAM == Apple_Terminal ]]; then
-    TERM=nsterm
-  fi
-fi
+if [[ $TERM_PROGRAM == Apple_Terminal && $TERM == xterm-256color ]] TERM=nsterm
 
 export COLORTERM=truecolor
 unset NO_CURSOR_SHAPES
