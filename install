@@ -38,5 +38,5 @@ fi
 
 # zsh
 if ! [[ -d ~/.zsh/plugins ]]; then
-  zsh -ci 'run-hooks precmd; plug update'
+  zsh -ci 'plug update'
 fi

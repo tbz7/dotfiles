@@ -34,11 +34,7 @@ function .term-colors.apply {
 }
 hook theme .term-colors.apply
 
-hook preexec term-colors-ssh '
-  if [[ $2 == ssh\ * ]]; then
-    hook precmd term-colors-ssh "
-      unhook precmd term-colors-ssh
-      .term-colors.apply
-    "
-  fi
+hook preexec term-colors-ssh 'if [[ $2 == ssh\ * ]] __term_colors_stale=true'
+hook precmd term-colors-ssh '
+  if [[ -n __term_colors_stale ]] .term-colors.apply; unset __term_colors_stale
 '

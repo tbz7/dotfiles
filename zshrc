@@ -1,19 +1,10 @@
 #-------------------------------------------------------------------------------
-# Init
-#-------------------------------------------------------------------------------
-source ~/.zsh/lib/init.zsh
-
-autoload -U run-help && unalias -m run-help
-autoload -U zargs zmv
-zmodload zsh/complist
-
-
-#-------------------------------------------------------------------------------
-# Settings
+# Shell
 #-------------------------------------------------------------------------------
 HISTFILE=~/.zsh_history
 HISTSIZE=50000 SAVEHIST=50000
 ZLE_SPACE_SUFFIX_CHARS='&|'
+
 setopt appendhistory
 setopt extendedglob
 setopt globstarshort
@@ -21,6 +12,10 @@ setopt histignorealldups
 setopt histignorespace
 setopt interactivecomments
 
+autoload -U run-help && unalias -m run-help
+autoload -U zargs zmv
+
+zmodload zsh/complist
 zstyle ':completion:*' matcher-list 'm:{a-z-_}={A-Z_-}'
 zstyle ':completion:*' menu select
 zstyle ':completion:*' use-cache on
@@ -36,12 +31,14 @@ bindkey $terminfo[khome] beginning-of-line
 bindkey -M menuselect $terminfo[kcbt] reverse-menu-complete
 bindkey '^u' backward-kill-line
 bindkey 'fd' vi-cmd-mode
-if (( $+commands[fzf] )) bindkey '^t' fzf-files '^r' fzf-history '\ev' fzf-vim
 
 
 #-------------------------------------------------------------------------------
 # Environment
 #-------------------------------------------------------------------------------
+typeset -U path fpath manpath
+path=(~/bin ~/.zsh/bin $path)
+
 export COPYFILE_DISABLE=true
 export EDITOR='vim'
 export FZF_DEFAULT_COMMAND="\
@@ -50,6 +47,8 @@ export FZF_DEFAULT_COMMAND="\
         -o -type f -print -o -type d -print -o -type l -print 2> /dev/null"
 export FZF_DEFAULT_OPTS='-m --reverse --cycle --height=40%'
 export LESS='-iR --follow-name'
+export MANPAGER="sh -c \"col -bx |\
+    vim -R -c 'set ft=man nomod noma nolist nonu cc= ls=1|map q :q<CR>' -\""
 export PAGER='less'
 
 
@@ -88,4 +87,5 @@ alias zu='plug update'
 alias up="${commands[brew]+bu;}vu;zu"
 
 
-if [[ -f ~/.zshrc.local ]] source ~/.zshrc.local
+for f (~/.zsh/lib.zsh ~/.zshrc.local(N) ~/.zsh/modules/*.zsh) source $f
+autoload -U compinit && compinit -C && run-hooks postcompinit

@@ -19,3 +19,5 @@ widget fzf-vim '
     zle accept-line
   fi
 '
+
+(( $+commands[fzf] )) && bindkey '^t' fzf-files '^r' fzf-history '\ev' fzf-vim
