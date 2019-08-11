@@ -47,7 +47,6 @@ hook focus_lost prompt-focus "psvar[$i[ia]]=1; zle reset-prompt"
 #-------------------------------------------------------------------------------
 
 function .prompt.vcs {
-  if (($+1)) cd $1
   local name hg_names result
   zstyle -s ':prompt:vcs' hg-names hg_names
   if name=$(git symbolic-ref HEAD || git rev-parse --short HEAD); then
@@ -58,23 +57,14 @@ function .prompt.vcs {
   [[ $NO_CUSTOM_FONT == true ]] && echo ${result:2} || echo $result
 }
 
-hook precmd prompt-vcs "psvar[$i[vcs]]=\$(.prompt.vcs)"
-if zstyle -T ':prompt:vcs' async && plug 'mafredri/zsh-async'; then
-  eval "function .prompt.vcs.callback {
-    if [[ \$psvar[$i[vcs]] != \$3 ]]; then
-      psvar[$i[vcs]]=\$3
-      zle && zle reset-prompt
-    fi
-  }"
-  async_start_worker prompt-vcs -u
-  async_register_callback prompt-vcs .prompt.vcs.callback
-  hook precmd prompt-vcs 'async_job prompt-vcs .prompt.vcs $PWD'
-
-  function .prompt.vcs-schedule.callback {
-    async_job prompt-vcs .prompt.vcs $PWD
-    async_job prompt-vcs-schedule sleep 10
-  }
-  async_start_worker prompt-vcs-schedule
-  async_register_callback prompt-vcs-schedule .prompt.vcs-schedule.callback
-  .prompt.vcs-schedule.callback
-fi
+function .prompt.vcs-refresh {
+  if (( __prompt_vcs_running++ )) return
+  async .prompt.vcs \
+      "if [[ \$psvar[$1] != \$1 ]]; then
+         psvar[$1]=\$1
+         zle reset-prompt
+       fi
+       unset __prompt_vcs_running"
+}
+hook precmd prompt-vcs ".prompt.vcs-refresh $i[vcs]"
+async --keep 'while true; do sleep 10; echo; done' ".prompt.vcs-refresh $i[vcs]"

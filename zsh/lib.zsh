@@ -1,8 +1,24 @@
+# async
+function async {
+  local callback=".async.callback-$((__async_callback++))" remove fd
+  [[ $1 == --keep ]] && shift || remove=true
+  [[ $# == 2 ]] || .warn 'Usage: async [--keep] BODY CALLBACK_BODY' || return 1
+  eval "function $callback {
+    () { $2 } \"\$(read -rEu \$1)\"
+    ${remove:+exec {1\}<&-}
+    ${remove:+zle -F \$1}
+    ${remove:+unfunction \$0}
+  }"
+  exec {fd}< <(eval $1); command true
+  zle -F $fd $callback
+}
+
+
 # hooks
 function hook {
   case $# in
     2) local name=$2; (( $+functions[$2] )) || .warn "Undefined function: $2";;
-    3) local name=".hook.$1.$2"; eval "function $name { $3; }";;
+    3) local name=".hook.$1.$2"; eval "function $name { $3 }";;
     *) .warn 'Usage: hook TYPE FUNCTION\n       hook TYPE ID BODY' || return 1;;
   esac
   eval "${1}_functions=(\${${1}_functions:#$name} $name)"
@@ -47,7 +63,7 @@ if [[ $TERM == linux* ]] export NO_CURSOR_SHAPES=true NO_CUSTOM_FONT=true
 # zle
 function widget {
   [[ $# == 2 ]] || .warn 'Usage: widget NAME BODY' || return 1
-  eval "function .widget.$1() { $2; }"
+  eval "function .widget.$1 { $2 }"
   zle -N $1 .widget.$1
 }
 widget zle-line-init "${terminfo[smkx]+echoti smkx}; run-hooks zle_line_init"
