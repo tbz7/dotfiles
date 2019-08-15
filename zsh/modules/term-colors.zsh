@@ -36,5 +36,5 @@ hook theme .term-colors.apply
 
 hook preexec term-colors-ssh 'if [[ $2 == ssh\ * ]] __term_colors_stale=true'
 hook precmd term-colors-ssh '
-  if [[ -n __term_colors_stale ]] .term-colors.apply; unset __term_colors_stale
+  if [[ -n $__term_colors_stale ]] .term-colors.apply; unset __term_colors_stale
 '

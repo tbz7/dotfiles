@@ -23,4 +23,4 @@ function _theme {
 }
 hook postcompinit theme 'compdef _theme theme'
 
-theme ${THEME:-${mapfile[$HOME/.theme]:-hybrid}}
+theme ${THEME:-${mapfile[$HOME/.theme]:-gruvbox}}

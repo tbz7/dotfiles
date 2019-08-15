@@ -18,5 +18,5 @@ augroup Theme
 augroup END
 
 let &termguicolors = $COLORTERM == 'truecolor'
-let s:aliases = {'': 'hybrid', 'solarized': 'solarized8_dark'}
+let s:aliases = {'': 'gruvbox', 'solarized': 'solarized8_dark'}
 silent! execute 'colorscheme ' . get(s:aliases, $THEME, $THEME)
