@@ -8,7 +8,7 @@ blue            66d9ef
 magenta         ae81ff
 cyan            66d9ef
 white           e8e8e3
-bright_black    383a3e
+bright_black    575b61
 bright_red      f92772
 bright_green    a6e22d
 bright_yellow   e6db74
@@ -36,5 +36,5 @@ cfgi            8f908a
 cbg             2d2e27
 cbg2            2d2e27
 cbgi            2d2e27
-efg             272822
-ebg             f92772
+efg             2d2e27
+ebg             fd9720

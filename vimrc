@@ -2,12 +2,10 @@
 " Init
 "-------------------------------------------------------------------------------
 silent! if plug#begin('~/.vim/plugged')
-  Plug 'chriskempson/base16-vim', {'do': '~/.zsh/bin/build-base16'}
   Plug 'crusoexia/vim-monokai'
   Plug 'dracula/vim'
   Plug 'joshdick/onedark.vim'
   Plug 'junegunn/fzf'
-  Plug 'junegunn/goyo.vim'
   Plug 'lifepillar/vim-solarized8'
   Plug 'morhetz/gruvbox'
   Plug 'nanotech/jellybeans.vim'
@@ -44,8 +42,14 @@ set nojoinspaces
 set omnifunc=syntaxcomplete#Complete
 set scrolloff=2
 set showcmd
+let &termguicolors = $COLORTERM == 'truecolor'
 set wildmenu
 set wrap linebreak
+
+au! ColorScheme hybrid hi MatchParen guifg=NONE
+
+silent! execute 'colorscheme ' . get({'': 'gruvbox', 'solarized': 'solarized8',
+\   'gotham': 'gotham' . (&termguicolors ? '' : '256')}, $THEME, $THEME)
 
 
 "-------------------------------------------------------------------------------
@@ -74,7 +78,6 @@ nnoremap <silent> <Leader>w :set invwrap<CR>
 
 cnoremap w!! w !sudo tee > /dev/null %
 
-nnoremap <silent> <Leader>g :Goyo<CR>
 nnoremap <silent> <Leader>t :NERDTreeFind<CR>
 nnoremap <silent> <Leader>v :FZF<CR>
 
@@ -82,8 +85,14 @@ nnoremap <silent> <Leader>v :FZF<CR>
 "-------------------------------------------------------------------------------
 " Plugin/tool configuration
 "-------------------------------------------------------------------------------
-let g:airline_focuslost_inactive=1
+let g:airline_focuslost_inactive = 1
+let g:airline_powerline_fonts = $NO_CUSTOM_FONT != 'true'
+let g:airline_skip_empty_sections = 1
+let g:gruvbox_italic = 1
+let g:jellybeans_use_term_italics = 1
+let g:monokai_term_italic = 1
 let g:NERDTreeQuitOnOpen = 1
+let g:onedark_terminal_italics = 1
 let g:syntastic_always_populate_loc_list = 1
 
 let s:command = system('ps -p $(ps -p $PPID -o ppid=) -o command=')
