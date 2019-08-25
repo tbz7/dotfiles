@@ -10,7 +10,8 @@ exe "onoremap <silent> \<Esc>[I <Esc>:silent doau FocusGained<CR>"
 exe "onoremap <silent> \<Esc>[O <Esc>:silent doau FocusLost<CR>"
 augroup FocusEvents
   au! FocusGained * if &autoread | checktime | endif
-  silent! au! CmdlineLeave * if s:f == 1 | silent doau FocusGained | elseif s:f == 2 | silent doau FocusLost | endif | let s:f = 0
+  silent! au! CmdlineLeave * if s:f == 1 | silent doau FocusGained |
+  \   elseif s:f == 2 | silent doau FocusLost | endif | let s:f = 0
 augroup END
 function! s:SetF(f)
   let s:f = a:f

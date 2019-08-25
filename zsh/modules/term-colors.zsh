@@ -3,8 +3,12 @@ function .term-colors.apply {
   zstyle -a ':theme' colors t
 
   case $TERM in
-    linux*) for c (bg red green yellow blue magenta cyan fg) echo -n "$e]P$((i++))$t[$c]$e\\";;
-    xterm*) echo -n "$e]1337;SetColors=selbg=$t[fg]$e\\$e]1337;SetColors=selfg=$t[bg]$e\\";|
+    linux*)
+      for c (bg red green yellow blue magenta cyan fg)
+        echo -n "$e]P$((i++))$t[$c]$e\\";;
+    xterm*)
+      echo -n "$e]1337;SetColors=selbg=$t[fg]$e\\"
+      echo -n "$e]1337;SetColors=selfg=$t[bg]$e\\";|
     *)
       for s c (
           '4;0'   $t[black]

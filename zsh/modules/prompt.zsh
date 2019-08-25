@@ -1,66 +1,56 @@
-psvar=('' '' '' 233 233 233 110 107 236 110 107 188 235 235 234 110 107 188 234 234 233 233 167 244)
-local names=(vcs vicmd ia {a,b,c}{f,b}g{,2,i} efg ebg comment_fg) n=({1..$#psvar})
-local -A i=(${names:^n})
+psvar=('' '' '' '' 233 233 233 110 107 236 110 107 188 235 235 234 110 107 188
+       234 234 233 233 167 244)
+local n=(vcs vicmd ia font {a,b,c}{f,b}g{,2,i} efg ebg comment_fg)
+local i=({1..$#n}); local -A i=(${n:^i})
+local x l="%($i[font]V..)" r="%($i[font]V..)"
 
-for x in a b c; do
-  local FF$x="%F{%($i[ia]V.%$i[${x}fgi]v.%($i[vicmd]V.%$i[${x}fg2]v.%$i[${x}fg]v))}"
-  local KK$x="%K{%($i[ia]V.%$i[${x}bgi]v.%($i[vicmd]V.%$i[${x}bg2]v.%$i[${x}bg]v))}"
-  local FK$x="%F{%($i[ia]V.%$i[${x}bgi]v.%($i[vicmd]V.%$i[${x}bg2]v.%$i[${x}bg]v))}"
+for x in {a,b,c}{f,b}g; do
+  local $x="%($i[ia]V.%$i[${x}i]v.%($i[vicmd]V.%$i[${x}2]v.%$i[$x]v))"
 done
-local FFe="%F{%($i[ia]V.%$i[cfgi]v.%$i[efg]v)}"
-local KKe="%K{%($i[ia]V.%$i[cbgi]v.%$i[ebg]v)}"
-local FKe="%F{%($i[ia]V.%$i[cbgi]v.%$i[ebg]v)}"
+for x (efg ebg) local $x="%($i[ia]V.%$i[${x/e/c}i]v.%$i[$x]v)"
 
-if [[ $NO_CUSTOM_FONT != true ]]; then
-  PROMPT="$FFa$KKa %m $FKa$KKb$FFb %33<⋯ <%~ %k$FKb%f "
-  RPROMPT="%(?..$FKe$FFe$KKe ✗ %($i[vcs]V.$FKc.))%($i[vcs]V.%(?.$FKc.)$FFc$KKc %$i[vcs]v .)%f%k"
-  PROMPT2="%F{%$i[comment_fg]v}↳  %f"
-  RPROMPT2="%F{%$i[comment_fg]v} %1^%f"
-else
-  PROMPT="%($i[vicmd]V.%2F%m%f:%3F.%4F%m%f:%2F)%33<...<%~%f %(!.#.$) "
-  RPROMPT="%(?..%S%1F X %f%s)%($i[vcs]V. %$i[vcs]v .)"
-fi
+PS1="%F{$afg}%K{$abg} %m %F{$abg}%K{$bbg}$r%F{$bfg} %33<⋯ <%~ %k%F{$bbg}$r%f "
+RPS1="%(?..%F{$ebg}$l%F{$efg}%K{$ebg} ✗ %($i[vcs]V.%F{$cbg}$l.))"
+RPS1+="%($i[vcs]V.%(?.%F{$cbg}$l.)%F{$cfg}%K{$cbg} %$i[vcs]v .)%f%k"
+PS2="%F{%$i[comment_fg]v}↳  %f"
+RPS2="%F{%$i[comment_fg]v} %1^%f"
 
 
-#-------------------------------------------------------------------------------
-
+hook focus_gained prompt "psvar[$i[ia]]=; zle reset-prompt"
+hook focus_lost prompt "psvar[$i[ia]]=1; zle reset-prompt"
+hook precmd prompt "
+  .prompt.vcs $i[vcs]
+  psvar[$i[vicmd]]=
+  psvar[$i[ia]]=
+  psvar[$i[font]]=\${\${NO_CUSTOM_FONT:-1}:#true}
+"
 hook theme prompt "
   local c k v; local -A i=(${(kv)i})
   zstyle -a ':theme' colors c
   for k v (\$c) (( \$i[\$k] )) && psvar[\$i[\$k]]=\"#\$v\"
 "
-
-hook precmd prompt-vicmd "psvar[$i[vicmd]]="
-hook zle_keymap prompt-vicmd "psvar[$i[vicmd]]=\${(M)KEYMAP:#vicmd}; zle reset-prompt"
-
-hook precmd prompt-ia "psvar[$i[ia]]="
+hook zle_keymap prompt "psvar[$i[vicmd]]=\${(M)KEYMAP:#vicmd}; zle reset-prompt"
 hook zle_line_finish prompt "psvar[$i[ia]]=1; zle reset-prompt"
 
-hook focus_gained prompt-focus "psvar[$i[ia]]=; zle reset-prompt"
-hook focus_lost prompt-focus "psvar[$i[ia]]=1; zle reset-prompt"
+async --keep 'while true; do sleep 10; echo; done' ".prompt.vcs $i[vcs]"
 
-
-#-------------------------------------------------------------------------------
 
 function .prompt.vcs {
-  local name hg_names result
-  zstyle -s ':prompt:vcs' hg-names hg_names
-  if name=$(git symbolic-ref HEAD || git rev-parse --short HEAD); then
-    result=" ${name##*/}${$(git diff --name-only HEAD; git ls-files -o --exclude-standard):+ *}"
-  elif name=($(hg id -r . -T "$hg_names {node|short}")); then
-    result="☿ $name[1]${$(hg id -T '{dirty}'):+ *}"
-  fi 2> /dev/null
-  [[ $NO_CUSTOM_FONT == true ]] && echo ${result:2} || echo $result
-}
-
-function .prompt.vcs-refresh {
   if (( __prompt_vcs_running++ )) return
-  async .prompt.vcs \
-      "if [[ \$psvar[$1] != \$1 ]]; then
+  async '{ .prompt.vcs-git || .prompt.vcs-hg || echo } 2> /dev/null' \
+      "if [[ \$NO_CUSTOM_FONT == true ]] 1=\${1:2}
+       if [[ \$psvar[$1] != \$1 ]]; then
          psvar[$1]=\$1
          zle reset-prompt
        fi
        unset __prompt_vcs_running"
 }
-hook precmd prompt-vcs ".prompt.vcs-refresh $i[vcs]"
-async --keep 'while true; do sleep 10; echo; done' ".prompt.vcs-refresh $i[vcs]"
+function .prompt.vcs-git {
+  local name=$(git symbolic-ref HEAD || git rev-parse --short HEAD)
+  [[ -n $name ]] && echo " ${name##*/}${$(git diff --name-only HEAD; \
+      git ls-files -o --exclude-standard):+ *}"
+}
+function .prompt.vcs-hg {
+  local names=($(hg id -r . -T "$HG_NAMES {node|short}"))
+  [[ -n $names ]] && echo "☿ $names[1]${$(hg id -T '{dirty}'):+ *}"
+}

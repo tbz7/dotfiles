@@ -41,10 +41,9 @@ path=(~/bin ~/.zsh/bin $path)
 
 export COPYFILE_DISABLE=true
 export EDITOR='vim'
-export FZF_DEFAULT_COMMAND="\
-    find * \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
-        -o -name '*.app' -prune -print \
-        -o -type f -print -o -type d -print -o -type l -print 2> /dev/null"
+export FZF_DEFAULT_COMMAND="find * \( -path '*/\.*' -o -fstype 'dev' \
+    -o -fstype 'proc' \) -prune -o -name '*.app' -prune -print \
+    -o -type f -print -o -type d -print -o -type l -print 2> /dev/null"
 export FZF_DEFAULT_OPTS='-m --reverse --cycle --height=40%'
 export LESS='-iR --follow-name'
 export MANPAGER="sh -c \"col -bx |\
@@ -55,15 +54,14 @@ export PAGER='less'
 #-------------------------------------------------------------------------------
 # Aliases
 #-------------------------------------------------------------------------------
-alias ag='ag -S'
 alias grep='grep -E --color=auto'
 alias zmv='noglob zmv'
 
 alias cdd='cd ~/Desktop'
-alias cdf='() { cd $1:h } '
-alias cdot='() { cd $1:A:h } ~/.zshrc'
-alias cdotl='() { cd $1:A:h } ~/.zshrc.local'
-alias clean='() { find ${1-.} \( -name .DS_Store -o -name "._*" \) -print -delete }'
+alias cdf='() { cd $1:A:h }'
+alias cdot='cdf ~/.zshrc'
+alias cdotl='cdf ~/.zshrc.local'
+alias clean='(){find ${1-.} \( -name .DS_Store -o -name ._\* \) -print -delete}'
 alias g='git status'
 alias ga='git add'
 alias gb='git branch'
@@ -87,5 +85,5 @@ alias zu='plug update'
 alias up="${commands[brew]+bu;}vu;zu"
 
 
-for f (~/.zsh/lib.zsh ~/.zshrc.local(N) ~/.zsh/modules/*.zsh) source $f
+for f (~/.zsh/lib.zsh ~/.zshrc.local(N) ~/.zsh/modules/*.zsh) () { source $f }
 autoload -U compinit && compinit -C && run-hooks postcompinit

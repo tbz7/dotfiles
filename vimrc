@@ -30,13 +30,12 @@ set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 set foldlevelstart=99
 set formatoptions=tcqj
 set hidden
-set history=10000
 set hlsearch incsearch
 set ignorecase smartcase
 set laststatus=2 noshowmode
 set list listchars=tab:»\ ,trail:·,extends:❯,precedes:❮
 set modeline
-silent! set mouse=a ttymouse=xterm2
+set mouse=a ttymouse=xterm2
 set nobackup noswapfile
 set nojoinspaces
 set omnifunc=syntaxcomplete#Complete

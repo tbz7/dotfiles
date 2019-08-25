@@ -1,6 +1,8 @@
 # ag
-alias ag="${aliases[ag]-ag} --color-line-number=34 --color-match=31 --color-path=32"
-function agc { ag --color -HC $@ | perl -pe "s/\[K-(.*)/[K-\e[38;5;244m\$1\e[0m/" }
+alias ag='ag --color-line-number=34 --color-match=31 --color-path=32'
+function agc {
+  ag --color -HC $@ | perl -pe "s/\[K-(.*)/[K-\e[38;5;244m\$1\e[0m/"
+}
 
 # fzf
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=bg+:234,info:244,\
