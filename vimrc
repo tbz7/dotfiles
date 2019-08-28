@@ -6,8 +6,8 @@ silent! if plug#begin('~/.vim/plugged')
   Plug 'dracula/vim'
   Plug 'joshdick/onedark.vim'
   Plug 'junegunn/fzf'
+  Plug 'lifepillar/vim-gruvbox8'
   Plug 'lifepillar/vim-solarized8'
-  Plug 'morhetz/gruvbox'
   Plug 'nanotech/jellybeans.vim'
   Plug 'scrooloose/nerdtree', {'on': 'NERDTreeFind'}
   Plug 'scrooloose/syntastic'
@@ -45,10 +45,11 @@ let &termguicolors = $COLORTERM == 'truecolor'
 set wildmenu
 set wrap linebreak
 
+au! ColorScheme gruvbox8* hi StatusLineNC ctermbg=247
 au! ColorScheme hybrid hi MatchParen guifg=NONE
 
-silent! execute 'colorscheme ' . get({'': 'gruvbox', 'solarized': 'solarized8',
-\   'gotham': 'gotham' . (&termguicolors ? '' : '256')}, $THEME, $THEME)
+sil! exe 'colorscheme '.get({'': 'gruvbox8', 'gruvbox': 'gruvbox8', 'solarized':
+\   'solarized8', 'gotham': 'gotham'.(&termguicolors?'':'256')}, $THEME, $THEME)
 
 
 "-------------------------------------------------------------------------------
@@ -87,7 +88,6 @@ nnoremap <silent> <Leader>v :FZF<CR>
 let g:airline_focuslost_inactive = 1
 let g:airline_powerline_fonts = $NO_CUSTOM_FONT != 'true'
 let g:airline_skip_empty_sections = 1
-let g:gruvbox_italic = 1
 let g:jellybeans_use_term_italics = 1
 let g:monokai_term_italic = 1
 let g:NERDTreeQuitOnOpen = 1
