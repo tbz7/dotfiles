@@ -22,10 +22,9 @@ function hook {
     *) .warn 'Usage: hook TYPE FUNCTION\n       hook TYPE ID BODY' || return 1;;
   esac
   eval "${1}_functions=(\${${1}_functions:#$name} $name)"
-  run-hooks hook_added $1 $name
 }
 function run-hooks {
-  eval "for f (\$${1}_functions) \$f \${(q)@:2}"
+  eval "for f (\$${1}_functions) \$f"
 }
 
 
@@ -58,6 +57,20 @@ unset NO_CURSOR_SHAPES
 if [[ $TERM_PROGRAM == Apple_Terminal && $TERM == xterm-256color ]] TERM=nsterm
 if [[ $TERM == nsterm* ]] unset COLORTERM && zmodload zsh/nearcolor
 if [[ $TERM == linux* ]] export NO_CURSOR_SHAPES=true NO_CUSTOM_FONT=true
+
+
+# theme
+zmodload zsh/mapfile
+function theme {
+  [[ $1 == -s ]] && mapfile[$HOME/.theme]=$2 && shift
+  [[ -f ~/.zsh/themes/$1 ]] || .warn "Invalid theme: $1" || return 1
+  theme=(${=mapfile[$HOME/.zsh/themes/${THEME::=$1}]})
+}
+export THEME; declare -gA theme=()
+theme ${THEME:-${mapfile[$HOME/.theme]:-gruvbox}}
+
+function _theme { _arguments -A '-*' '-s[]' '::theme:(~/.zsh/themes/*(:t))' }
+hook postcompinit theme 'compdef _theme theme'
 
 
 # zle

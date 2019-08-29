@@ -1,5 +1,5 @@
-psvar=('' '' '' '' 233 233 233 110 107 236 110 107 188 235 235 234 110 107 188
-       234 234 233 233 167 244)
+psvar=('' '' '' '' 235 235 243 247 109 237 247 247 243 239 239 237 247 187 243
+       237 239 237 235 160 102)
 local n=(vcs vicmd ia font {a,b,c}{f,b}g{,2,i} efg ebg comment_fg)
 local i=({1..$#n}); local -A i=(${n:^i})
 local x l="%($i[font]V..)" r="%($i[font]V..)"
@@ -23,11 +23,8 @@ hook precmd prompt "
   psvar[$i[vicmd]]=
   psvar[$i[ia]]=
   psvar[$i[font]]=\${\${NO_CUSTOM_FONT:-1}:#true}
-"
-hook theme prompt "
-  local c k v; local -A i=(${(kv)i})
-  zstyle -a ':theme' colors c
-  for k v (\$c) (( \$i[\$k] )) && psvar[\$i[\$k]]=\"#\$v\"
+  $(for x ($n[(r)afg,-1])
+      echo "if [[ -n \$theme[$x] ]] psvar[$i[$x]]=#\$theme[$x]")
 "
 hook zle_keymap prompt "psvar[$i[vicmd]]=\${(M)KEYMAP:#vicmd}; zle reset-prompt"
 hook zle_line_finish prompt "psvar[$i[ia]]=1; zle reset-prompt"
