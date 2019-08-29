@@ -1,14 +1,14 @@
 function .term-colors.apply {
-  local c e=$'\e' i=0 s; local -A t
+  local c i=0 s; local -A t
   zstyle -a ':theme' colors t
 
   case $TERM in
     linux*)
       for c (bg red green yellow blue magenta cyan fg)
-        echo -n "$e]P$((i++))$t[$c]$e\\";;
+        echo -n "\e]P$((i++))$t[$c]\e\\";;
     xterm*)
-      echo -n "$e]1337;SetColors=selbg=$t[fg]$e\\"
-      echo -n "$e]1337;SetColors=selfg=$t[bg]$e\\";|
+      echo -n "\e]1337;SetColors=selbg=$t[visual_bg]\e\\"
+      echo -n "\e]1337;SetColors=selfg=$t[visual_fg]\e\\";|
     *)
       for s c (
           '4;0'   $t[black]
@@ -29,11 +29,11 @@ function .term-colors.apply {
           '4;15'  $t[bright_white]
           '4;234' $t[cursorline_bg]
           '4;244' $t[comment_fg]
-          '10'    $t[fg]  # foreground
-          '11'    $t[bg]  # background
-          '17'    $t[fg]  # selection
-          '19'    $t[bg]) # selected text
-        echo -n "$e]$s;rgb:${c:0:2}/${c:2:2}/${c:4}$e\\";;
+          '10'    $t[fg] # foreground
+          '11'    $t[bg] # background
+          '17'    $t[visual_bg]  # selection
+          '19'    $t[visual_fg]) # selected text
+        echo -n "\e]$s;rgb:${c:0:2}/${c:2:2}/${c:4}\e\\";;
   esac
 }
 hook theme .term-colors.apply

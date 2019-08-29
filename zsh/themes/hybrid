@@ -18,6 +18,8 @@ bright_cyan     8abeb7
 bright_white    c5c8c6
 comment_fg      707880
 cursorline_bg   282a2e
+visual_fg       c5c8c6
+visual_bg       373b41
 afg             1d1f21
 afg2            1d1f21
 afgi            707880

@@ -18,6 +18,8 @@ bright_cyan     8fbfdc
 bright_white    e8e8d3
 comment_fg      888888
 cursorline_bg   1c1c1c
+visual_fg       e8e8d3
+visual_bg       404040
 afg             151515
 afg2            151515
 afgi            777777

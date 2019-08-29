@@ -18,6 +18,8 @@ bright_cyan     56b6c2
 bright_white    abb2bf
 comment_fg      5c6370
 cursorline_bg   2c323c
+visual_fg       abb2bf
+visual_bg       3e4452
 afg             282c34
 afg2            282c34
 afgi            282c34

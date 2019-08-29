@@ -18,6 +18,8 @@ bright_cyan     33859e
 bright_white    d3ebe9
 comment_fg      195466
 cursorline_bg   11151c
+visual_fg       99d1ce
+visual_bg       0a3749
 afg             99d1ce
 afg2            091f2e
 afgi            195466
