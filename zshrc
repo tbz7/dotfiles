@@ -55,6 +55,7 @@ export PAGER='less'
 # Aliases
 #-------------------------------------------------------------------------------
 alias grep='grep -E --color=auto'
+alias vidir='() { EDITOR="vim -S $1" vidir ${@:2} } =(echo setlocal tabstop=4)'
 alias zmv='noglob zmv'
 
 alias cdd='cd ~/Desktop'
@@ -80,9 +81,8 @@ alias mmv='zmv -W'
 alias tm='tmux new-session -A -s main'
 
 alias bu='brew update; brew upgrade; brew cleanup -s'
-alias vu='vim -c "set ls=0 nonu cc=|au BufAdd * on" +PlugUpgrade +PlugUpdate +q'
-alias zu='plug update'
-alias up="${commands[brew]+bu;}vu;zu"
+alias pu='() { git -C $1:A:h submodule update -j 20 --remote --depth=1 } ~/.zsh'
+alias up="${commands[brew]+bu;}pu"
 
 
 for f (~/.zsh/lib.zsh ~/.zshrc.local(N) ~/.zsh/modules/*.zsh) () { source $f }

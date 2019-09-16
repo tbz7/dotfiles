@@ -28,29 +28,6 @@ function run-hooks {
 }
 
 
-# plugins
-function plug {
-  case $1 in
-    clear) rm -rf ~/.zsh/plugins ~/.zcompdump;;
-    update)
-      for p in $__plugins; do
-        if [[ -d ~/.zsh/plugins/$p ]]; then
-          git -C ~/.zsh/plugins/$p pull
-        else
-          git clone --depth 1 "https://github.com/$p" ~/.zsh/plugins/$p
-        fi
-      done
-      rm -f ~/.zcompdump;;
-    */*)
-      __plugins+=$1
-      for f (~/.zsh/plugins/$1/*.plugin.zsh(N)) source $f
-      [[ -d ~/.zsh/plugins/$1 ]];;
-    *) .warn 'Invalid plug command';;
-  esac
-}
-__plugins=()
-
-
 # term
 export COLORTERM=truecolor
 unset NO_CURSOR_SHAPES

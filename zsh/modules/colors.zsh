@@ -25,9 +25,10 @@ export CLICOLOR=true
 ls --color=auto &> /dev/null && alias ls="${aliases[ls]-ls} --color=auto"
 
 # syntax highlighting
-hook postcompinit syntax-highlighting '
-  if plug "zsh-users/zsh-syntax-highlighting"; then
+if [[ -f ~/.zsh/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  hook postcompinit syntax-highlighting '
+    source ~/.zsh/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh
     ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
     ZSH_HIGHLIGHT_STYLES[comment]="fg=244"
-  fi
-'
+  '
+fi

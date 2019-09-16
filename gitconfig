@@ -5,6 +5,9 @@
   guitool = meld
   tool = vimdiff
 
+[difftool "vimdiff"]
+  cmd = vim -fdc 'cnoremap q qa|wincmd l|cd "$GIT_PREFIX"' "$LOCAL" "$REMOTE"
+
 [include]
   path = ~/.gitidentity
 
