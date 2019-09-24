@@ -1,39 +1,52 @@
 [submodule "vim/pack/default/start/airline"]
   path = vim/pack/default/start/airline
   url = https://github.com/vim-airline/vim-airline
+  ignore = all
 [submodule "vim/pack/default/start/dracula"]
   path = vim/pack/default/start/dracula
   url = https://github.com/dracula/vim
+  ignore = all
 [submodule "vim/pack/default/start/fzf"]
   path = vim/pack/default/start/fzf
   url = https://github.com/junegunn/fzf
+  ignore = all
 [submodule "vim/pack/default/start/gotham"]
   path = vim/pack/default/start/gotham
   url = https://github.com/whatyouhide/vim-gotham
+  ignore = all
 [submodule "vim/pack/default/start/gruvbox8"]
   path = vim/pack/default/start/gruvbox8
   url = https://github.com/lifepillar/vim-gruvbox8
+  ignore = all
 [submodule "vim/pack/default/start/hybrid"]
   path = vim/pack/default/start/hybrid
   url = https://github.com/w0ng/vim-hybrid
+  ignore = all
 [submodule "vim/pack/default/start/jellybeans"]
   path = vim/pack/default/start/jellybeans
   url = https://github.com/nanotech/jellybeans.vim
+  ignore = all
 [submodule "vim/pack/default/start/monokai"]
   path = vim/pack/default/start/monokai
   url = https://github.com/crusoexia/vim-monokai
+  ignore = all
 [submodule "vim/pack/default/start/nerdtree"]
   path = vim/pack/default/start/nerdtree
   url = https://github.com/scrooloose/nerdtree
+  ignore = all
 [submodule "vim/pack/default/start/onedark"]
   path = vim/pack/default/start/onedark
   url = https://github.com/joshdick/onedark.vim
+  ignore = all
 [submodule "vim/pack/default/start/solarized8"]
   path = vim/pack/default/start/solarized8
   url = https://github.com/lifepillar/vim-solarized8
+  ignore = all
 [submodule "vim/pack/default/start/syntastic"]
   path = vim/pack/default/start/syntastic
   url = https://github.com/scrooloose/syntastic
+  ignore = all
 [submodule "zsh/plugins/syntax-highlighting"]
   path = zsh/plugins/syntax-highlighting
   url = https://github.com/zsh-users/zsh-syntax-highlighting
+  ignore = all

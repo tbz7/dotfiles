@@ -3,7 +3,7 @@
 setopt extendedglob
 
 for f ($0:A:h/^install) rm -rf ~/.$f:t && ln -sfv $f ~/.$f:t
-git -C $0:A:h submodule update -j 20 --init --depth=1
+zsh -ic pu
 
 for k in user.name user.email; do
   if ! git config -f ~/.gitidentity $k > /dev/null; then

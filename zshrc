@@ -81,7 +81,7 @@ alias mmv='zmv -W'
 alias tm='tmux new-session -A -s main'
 
 alias bu='brew update; brew upgrade; brew cleanup -s'
-alias pu='() { git -C $1:A:h submodule update -j 20 --remote --depth=1 } ~/.zsh'
+alias pu='git -C ~/.zsh/.. submodule update -j 20 --init --remote --depth=1'
 alias up="${commands[brew]+bu;}pu"
 
 
