@@ -1,5 +1,13 @@
 #!/usr/bin/env zsh
-
-for i in {000..255}; do
-  print -P "$i: %F{$i}${1-All work and no play makes Jack a dull boy}%f"
-done | less -R
+print -n '\n    '
+for i ({00..07}) print -Pn "%F{$i} $i "; print -Pn '  %S'
+for i ({00..07}) print -Pn "%F{$i} $i "; print -Pn '%s\n    '
+for i ({08..15}) print -Pn "%F{$i} $i "; print -Pn '  %S'
+for i ({08..15}) print -Pn "%F{$i} $i "; print -Pn '%s%f\n\n '
+for r in {0..5}; do for g in {0..5}; do for b in {0..5}; do
+  print -Pn "%K{$((16 + (r * 36) + (g * 6) + b))}  "
+done; print -Pn '%k'; done; print -n '\n '; done; print
+for i ({232..255}) print -Pn " %K{$i}  "; print -Pn ' %k\n\n '
+for i ({0..71}) print -Pn "%K{#$(printf "%02x%02x%02x" $((-255 / 71 * i + 255))\
+    $(((i > 36 ? -1 : 1) * (510 / 71 * i - 255) + 255)) $((255 / 71 * i)))} "
+print -P '%k\n'
