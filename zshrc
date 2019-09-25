@@ -39,6 +39,7 @@ bindkey 'fd' vi-cmd-mode
 typeset -U path fpath manpath
 path=(~/bin ~/.zsh/bin $path)
 
+export CLICOLOR=true
 export COPYFILE_DISABLE=true
 export EDITOR='vim'
 export FZF_DEFAULT_COMMAND="find * \( -path '*/\.*' -o -fstype 'dev' \

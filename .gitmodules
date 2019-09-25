@@ -2,6 +2,10 @@
   path = vim/pack/default/start/airline
   url = https://github.com/vim-airline/vim-airline
   ignore = all
+[submodule "vim/pack/default/start/css-color"]
+  path = vim/pack/default/start/css-color
+  url = https://github.com/ap/vim-css-color
+  ignore = all
 [submodule "vim/pack/default/start/dracula"]
   path = vim/pack/default/start/dracula
   url = https://github.com/dracula/vim

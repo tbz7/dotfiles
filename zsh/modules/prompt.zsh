@@ -24,7 +24,7 @@ hook precmd prompt "
   psvar[$i[ia]]=
   psvar[$i[font]]=\${\${NO_CUSTOM_FONT:-1}:#true}
   $(for x ($n[(r)afg,-1])
-      echo "if [[ -n \$theme[$x] ]] psvar[$i[$x]]=#\$theme[$x]")
+      echo "if [[ -n \$theme[$x] ]] psvar[$i[$x]]=\$theme[$x]")
 "
 hook zle_keymap prompt "psvar[$i[vicmd]]=\${(M)KEYMAP:#vicmd}; zle reset-prompt"
 hook zle_line_finish prompt "psvar[$i[ia]]=1; zle reset-prompt"

@@ -69,6 +69,7 @@ let g:onedark_terminal_italics = 1
 let g:solarized_diffmode = 'high'
 let g:syntastic_always_populate_loc_list = 1
 
+au! BufRead,BufNewFile */zsh/themes/* set syntax=r
 au! ColorScheme dracula hi! link DiffAdd DraculaSearch |
 \                       hi! link DiffDelete DraculaRedInverse
 au! ColorScheme gruvbox8* hi StatusLineNC ctermbg=247
