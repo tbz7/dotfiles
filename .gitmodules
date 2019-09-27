@@ -2,6 +2,10 @@
   path = vim/pack/default/start/airline
   url = https://github.com/vim-airline/vim-airline
   ignore = all
+[submodule "vim/pack/default/start/ayu"]
+  path = vim/pack/default/start/ayu
+  url = https://github.com/ayu-theme/ayu-vim
+  ignore = all
 [submodule "vim/pack/default/start/css-color"]
   path = vim/pack/default/start/css-color
   url = https://github.com/ap/vim-css-color
@@ -26,6 +30,10 @@
   path = vim/pack/default/start/hybrid
   url = https://github.com/w0ng/vim-hybrid
   ignore = all
+[submodule "vim/pack/default/start/iceberg"]
+  path = vim/pack/default/start/iceberg
+  url = https://github.com/cocopon/iceberg.vim
+  ignore = all
 [submodule "vim/pack/default/start/jellybeans"]
   path = vim/pack/default/start/jellybeans
   url = https://github.com/nanotech/jellybeans.vim
@@ -38,6 +46,11 @@
   path = vim/pack/default/start/nerdtree
   url = https://github.com/scrooloose/nerdtree
   ignore = all
+[submodule "vim/pack/default/start/nord"]
+  path = vim/pack/default/start/nord
+  url = https://github.com/arcticicestudio/nord-vim
+  ignore = all
+  branch = develop
 [submodule "vim/pack/default/start/onedark"]
   path = vim/pack/default/start/onedark
   url = https://github.com/joshdick/onedark.vim

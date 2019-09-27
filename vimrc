@@ -61,15 +61,20 @@ nnoremap <silent> <Leader>v :FZF<CR>
 let g:airline_focuslost_inactive = 1
 let g:airline_powerline_fonts = $NO_CUSTOM_FONT != 'true'
 let g:airline_skip_empty_sections = 1
+let ayucolor = 'dark'
 let g:jellybeans_use_term_italics = 1
 let g:monokai_term_italic = 1
 let g:NERDTreeQuitOnOpen = 1
 let g:netrw_home = '~'
+let g:nord_italic = 1
 let g:onedark_terminal_italics = 1
 let g:solarized_diffmode = 'high'
 let g:syntastic_always_populate_loc_list = 1
 
 au! BufRead,BufNewFile */zsh/themes/* set syntax=r
+au! ColorScheme ayu hi! link NERDTreeDir Type | hi! link NERDTreeFile Normal |
+\                   hi! link DiffAdd StatusLineTermNC |
+\                   hi! link DiffDelete WildMenu | hi! link DiffText Search
 au! ColorScheme dracula hi! link DiffAdd DraculaSearch |
 \                       hi! link DiffDelete DraculaRedInverse
 au! ColorScheme gruvbox8* hi StatusLineNC ctermbg=247
