@@ -1,46 +1,35 @@
-psvar=('' '' '' '' 235 235 243 247 109 237 247 247 243 239 239 237 247 187 243
-       237 239 237 235 160 102)
-local n=(vcs vicmd ia font {a,b,c}{f,b}g{,2,i} efg ebg comment_fg)
-local i=({1..$#n}); local -A i=(${n:^i})
-local x l="%($i[font]V..)" r="%($i[font]V..)"
+setopt promptsubst
 
-for x in {a,b,c}{f,b}g; do
-  local $x="%($i[ia]V.%$i[${x}i]v.%($i[vicmd]V.%$i[${x}2]v.%$i[$x]v))"
-done
-for x (efg ebg) local $x="%($i[ia]V.%$i[${x/e/c}i]v.%$i[$x]v)"
+local x l='%(3V..)' r='%(3V..)'
+local efg='%(V.$theme[cfgi].$theme[efg])' ebg='%(V.$theme[cbgi].$theme[ebg])'
+for x ({a,b,c}{f,b}g)
+  local $x="%(V.\$theme[${x}i].%(2V.\$theme[${x}2].\$theme[$x]))"
 
 PS1="%F{$afg}%K{$abg} %m %F{$abg}%K{$bbg}$r%F{$bfg} %33<⋯ <%~ %k%F{$bbg}$r%f "
-RPS1="%(?..%F{$ebg}$l%F{$efg}%K{$ebg} ✗ %($i[vcs]V.%F{$cbg}$l.))"
-RPS1+="%($i[vcs]V.%(?.%F{$cbg}$l.)%F{$cfg}%K{$cbg} %$i[vcs]v .)%f%k"
-PS2="%F{%$i[comment_fg]v}↳  %f"
-RPS2="%F{%$i[comment_fg]v} %1^%f"
+RPS1="%(?..%F{$ebg}$l%F{$efg}%K{$ebg} ✗ %(4V.%F{$cbg}$l.))"
+RPS1+="%(4V.%(?.%F{$cbg}$l.)%F{$cfg}%K{$cbg} %4v .)%f%k"
+PS2='%F{$theme[comment_fg]}↳  %f'
+RPS2='%F{$theme[comment_fg]} %1^%f'
 
 
-hook focus_gained prompt "psvar[$i[ia]]=; zle reset-prompt"
-hook focus_lost prompt "psvar[$i[ia]]=1; zle reset-prompt"
-hook precmd prompt "
-  .prompt.vcs $i[vcs]
-  psvar[$i[vicmd]]=
-  psvar[$i[ia]]=
-  psvar[$i[font]]=\${\${NO_CUSTOM_FONT:-1}:#true}
-  $(for x ($n[(r)afg,-1])
-      echo "if [[ -n \$theme[$x] ]] psvar[$i[$x]]=\$theme[$x]")
-"
-hook zle_keymap prompt "psvar[$i[vicmd]]=\${(M)KEYMAP:#vicmd}; zle reset-prompt"
-hook zle_line_finish prompt "psvar[$i[ia]]=1; zle reset-prompt"
+hook focus_gained prompt 'psvar[1]=; zle reset-prompt'
+hook focus_lost prompt 'psvar[1]=1; zle reset-prompt'
+hook precmd prompt 'psvar[1,3]=([3]=${(M)NO_CUSTOM_FONT:#true}); .prompt.vcs'
+hook zle_keymap prompt 'psvar[2]=${(M)KEYMAP:#vicmd}; zle reset-prompt'
+hook zle_line_finish prompt 'psvar[1]=1; zle reset-prompt'
 
-async --keep 'while true; do sleep 10; echo; done' ".prompt.vcs $i[vcs]"
+async --keep 'while true; do sleep 10; echo; done' .prompt.vcs
 
 
 function .prompt.vcs {
   if (( __prompt_vcs_running++ )) return
-  async '{ .prompt.vcs-git || .prompt.vcs-hg || echo } 2> /dev/null' \
-      "if [[ \$NO_CUSTOM_FONT == true ]] 1=\${1:2}
-       if [[ \$psvar[$1] != \$1 ]]; then
-         psvar[$1]=\$1
+  async '{ .prompt.vcs-git || .prompt.vcs-hg } 2> /dev/null' \
+      'if [[ $NO_CUSTOM_FONT == true ]] 1=${1:2}
+       if [[ $psvar[4] != $1 ]]; then
+         psvar[4]=$1
          zle reset-prompt
        fi
-       unset __prompt_vcs_running"
+       unset __prompt_vcs_running'
 }
 function .prompt.vcs-git {
   local name=$(git symbolic-ref HEAD || git rev-parse --short HEAD)
