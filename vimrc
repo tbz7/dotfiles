@@ -20,7 +20,7 @@ set nobackup noswapfile
 set nojoinspaces
 set omnifunc=syntaxcomplete#Complete
 set scrolloff=2
-let &termguicolors = $COLORTERM == 'truecolor'
+let &termguicolors = $TERM != 'nsterm'
 set ttymouse=xterm2
 set wrap linebreak
 

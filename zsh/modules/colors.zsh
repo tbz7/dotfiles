@@ -8,7 +8,7 @@ ls --color=auto &> /dev/null && alias ls='ls --color=auto'
 hook precmd colors '
   local comm=$theme[comment_fg] curs=$theme[cursorline_bg]
   local comm_seq=${${(%):-%F{$comm}}:2:-1} curs_seq=${${(%):-%K{$curs}}:2:-1}
-  if [[ $COLORTERM != truecolor ]] comm=${comm_seq/*;} curs=${curs_seq/*;}
+  if (( $+modules[zsh/nearcolor] )) comm=${comm_seq/*;} curs=${curs_seq/*;}
 
   export FZF_DEFAULT_OPTS=--color=${(j.,.)=:-{hl,hl+}:1 {pointer,prompt}:4
       marker:2 header:-1 {border,bg+}:$curs

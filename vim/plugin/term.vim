@@ -1,13 +1,7 @@
-" Italics
-let &t_ZH = "\<Esc>[3m"
-let &t_ZR = "\<Esc>[23m"
-
 " Cursor shapes
-if $NO_CURSOR_SHAPES != 'true'
-  let &t_EI = "\<Esc>[2 q"
-  let &t_SR = "\<Esc>[3 q"
-  let &t_SI = "\<Esc>[5 q"
-endif
+let &t_EI = system('tput Ss 2 2> /dev/null')
+let &t_SR = system('tput Ss 3 2> /dev/null')
+let &t_SI = system('tput Ss 5 2> /dev/null')
 
 " True color
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
