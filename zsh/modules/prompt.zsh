@@ -5,20 +5,18 @@ local efg='%(V.$theme[cfgi].$theme[efg])' ebg='%(V.$theme[cbgi].$theme[ebg])'
 for x ({a,b,c}{f,b}g)
   local $x="%(V.\$theme[${x}i].%(2V.\$theme[${x}2].\$theme[$x]))"
 
-PS1="%F{$afg}%K{$abg} %m %F{$abg}%K{$bbg}$r%F{$bfg} %33<⋯ <%~ %k%F{$bbg}$r%f "
-RPS1="%(?..%F{$ebg}$l%F{$efg}%K{$ebg} ✗ %(4V.%F{$cbg}$l.))"
-RPS1+="%(4V.%(?.%F{$cbg}$l.)%F{$cfg}%K{$cbg} %4v .)%f%k"
-PS2='%F{$theme[comment_fg]}↳  %f'
-RPS2='%F{$theme[comment_fg]} %1^%f'
+PROMPT="%F{$afg}%K{$abg} %m %F{$abg}%K{$bbg}$r%F{$bfg} %33<…<%~ %k%F{$bbg}$r%f "
+RPROMPT="%(?..%F{$ebg}$l%F{$efg}%K{$ebg} ✗ %(4V.%F{$cbg}$l.))"
+RPROMPT+="%(4V.%(?.%F{$cbg}$l.)%F{$cfg}%K{$cbg} %4v .)%f%k"
+PROMPT2='%F{$theme[comment_fg]}↳  %f'
+RPROMPT2='%F{$theme[comment_fg]} %1^%f'
 
 
-hook focus_gained prompt 'psvar[1]=; zle reset-prompt'
+hook focus_gained prompt 'psvar[1]=; zle reset-prompt; .prompt.vcs'
 hook focus_lost prompt 'psvar[1]=1; zle reset-prompt'
 hook precmd prompt 'psvar[1,3]=([3]=${(M)NO_CUSTOM_FONT:#true}); .prompt.vcs'
 hook zle_keymap prompt 'psvar[2]=${(M)KEYMAP:#vicmd}; zle reset-prompt'
 hook zle_line_finish prompt 'psvar[1]=1; zle reset-prompt'
-
-async --keep 'while true; do sleep 10; echo; done' .prompt.vcs
 
 
 function .prompt.vcs {

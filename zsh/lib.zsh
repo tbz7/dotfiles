@@ -1,15 +1,16 @@
 # async
 function async {
-  local callback=".async.callback-$((__async_callback++))" remove fd
-  [[ $1 == --keep ]] && shift || remove=true
-  [[ $# == 2 ]] || .warn 'Usage: async [--keep] BODY CALLBACK_BODY' || return 1
-  eval "function $callback {
-    () { $2 } \"\$(read -rEu \$1)\"
-    ${remove:+exec {1\}<&-}
-    ${remove:+zle -F \$1}
-    ${remove:+unfunction \$0}
-  }"
-  exec {fd}< <(eval $1); command true
+  local callback=".async.callback-$((__async_callback++))" fd
+  [[ $# == 2 ]] || .warn 'Usage: async BODY CALLBACK_BODY' || return 1
+  eval 'function '$callback' {
+    if [[ -z $2 || $2 == hup ]]; then
+      () { '$2' } "$(IFS= read -rEd \"\" -u $1)"
+      exec {1}<&-
+    fi
+    zle -F $1
+    unfunction $0
+  }'
+  exec {fd}< <(echo "$(eval $1)"); command true
   zle -F $fd $callback
 }
 
