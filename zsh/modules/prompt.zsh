@@ -12,7 +12,8 @@ PROMPT2='%F{$theme[comment_fg]}↳  %f'
 RPROMPT2='%F{$theme[comment_fg]} %1^%f'
 
 
-hook focus_gained prompt 'psvar[1]=; zle reset-prompt; .prompt.vcs'
+hook alarm prompt '.prompt.vcs'
+hook focus_gained prompt 'psvar[1]=; zle reset-prompt'
 hook focus_lost prompt 'psvar[1]=1; zle reset-prompt'
 hook precmd prompt 'psvar[1,3]=([3]=${(M)NO_CUSTOM_FONT:#true}); .prompt.vcs'
 hook zle_keymap prompt 'psvar[2]=${(M)KEYMAP:#vicmd}; zle reset-prompt'
@@ -21,9 +22,8 @@ hook zle_line_finish prompt 'psvar[1]=1; zle reset-prompt'
 
 function .prompt.vcs {
   if (( __prompt_vcs_running++ )) return
-  async '{ .prompt.vcs-git || .prompt.vcs-hg } 2> /dev/null' \
-      'if [[ $NO_CUSTOM_FONT == true ]] 1=${1:2}
-       if [[ $psvar[4] != $1 ]]; then
+  async "{ ${(j. || .)${(@o)functions[(I).prompt.vcs-*]}} } 2> /dev/null" \
+      'if [[ $psvar[4] != $1 ]]; then
          psvar[4]=$1
          zle reset-prompt
        fi
@@ -31,10 +31,6 @@ function .prompt.vcs {
 }
 function .prompt.vcs-git {
   local name=$(git symbolic-ref HEAD || git rev-parse --short HEAD)
-  [[ -n $name ]] && echo " ${name##*/}${$(git diff --name-only HEAD; \
-      git ls-files -o --exclude-standard):+ *}"
-}
-function .prompt.vcs-hg {
-  local names=($(hg id -r . -T "$HG_NAMES {node|short}"))
-  [[ -n $names ]] && echo "☿ $names[1]${$(hg id -T '{dirty}'):+ *}"
+  [[ -n $name ]] && print -P "%(3V.git:. )${name##*/}${$(
+      git diff --name-only HEAD; git ls-files -o --exclude-standard):+ *}"
 }

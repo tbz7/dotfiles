@@ -27,6 +27,8 @@ function hook {
 function run-hooks {
   eval "for f (\$${1}_functions) \$f"
 }
+trap 'run-hooks alarm' ALRM
+TMOUT=10
 
 
 # term
