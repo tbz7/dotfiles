@@ -1,20 +1,20 @@
-widget fzf-files '
-  local files=(${(@f)"$(fzf < $TTY)":#})
-  zle redisplay
-  if (( $#files )) LBUFFER=$LBUFFER$files:q\ ;
-'
-widget fzf-history '
-  local line=(${(@f)"$(fc -l 1 | fzf +m +s --tac -n2.. --query=$LBUFFER)":#})
-  zle redisplay
-  if (( $#line )) zle vi-fetch-history -n $line[1]
-'
-widget fzf-vim '
-  local files=(${(@f)"$(fzf < $TTY)":#})
-  zle redisplay
-  if (( $#files )); then
-    zle push-line
-    BUFFER=vim\ $files:q
-    zle accept-line
-  fi
-'
+function .fzf-widgets.widget {
+  widget $1 "
+    local alarm=(\$alarm_functions)
+    alarm_functions=()
+    local lines=(\${(@f)\"\$($2)\":#})
+    alarm_functions=(\$alarm)
+    zle redisplay
+    if (( \$#lines )); then $3; fi
+  "
+}
+.fzf-widgets.widget fzf-files 'fzf < $TTY' \
+    'LBUFFER=$LBUFFER$lines:q\ '
+.fzf-widgets.widget fzf-history \
+    'fc -l 1 | fzf +m +s --tac -n2.. --query=$LBUFFER' \
+    'zle vi-fetch-history -n $lines[1]'
+.fzf-widgets.widget fzf-vim 'fzf < $TTY' \
+    'zle push-line
+     BUFFER=vim\ $lines:q
+     zle accept-line'
 (( $+commands[fzf] )) && bindkey '^t' fzf-files '^r' fzf-history '\ev' fzf-vim
