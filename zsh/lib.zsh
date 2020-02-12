@@ -47,9 +47,6 @@ function theme {
 export THEME; declare -gA theme=()
 theme ${THEME:-${mapfile[$HOME/.theme]:-gruvbox}}
 
-function _theme { _arguments -A '-*' '-s[]' '::theme:(~/.zsh/themes/*(:t))' }
-hook postcompinit theme 'compdef _theme theme'
-
 
 # zle
 function widget {

@@ -27,7 +27,7 @@ function .prompt.vcs {
          psvar[4]=$1
          zle reset-prompt
        fi
-       unset __prompt_vcs_running'
+       __prompt_vcs_running=0'
 }
 function .prompt.vcs-git {
   local name=$(git symbolic-ref HEAD || git rev-parse --short HEAD)

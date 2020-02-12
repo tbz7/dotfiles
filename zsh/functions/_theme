@@ -1,0 +1,2 @@
+#compdef theme
+_arguments -A '-*' '-s[]' '::theme:(~/.zsh/themes/*(:t))'

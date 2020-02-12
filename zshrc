@@ -36,8 +36,9 @@ bindkey 'fd' vi-cmd-mode
 #-------------------------------------------------------------------------------
 # Environment
 #-------------------------------------------------------------------------------
-typeset -U path fpath manpath
+typeset -U path fpath
 path=(~/bin ~/.zsh/bin $path)
+fpath=(~/.zsh/functions $fpath)
 
 export CLICOLOR=true
 export COPYFILE_DISABLE=true
