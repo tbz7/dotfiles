@@ -8,7 +8,7 @@ blue            #268bd2
 magenta         #d33682
 cyan            #2aa198
 white           #eee8d5
-bright_black    #073642
+bright_black    #586e75
 bright_red      #dc322f
 bright_green    #859900
 bright_yellow   #b58900
@@ -16,8 +16,6 @@ bright_blue     #268bd2
 bright_magenta  #d33682
 bright_cyan     #2aa198
 bright_white    #fdf6e3
-comment_fg      #586e75
-cursorline_bg   #073642
 visual_fg       #002b36
 visual_bg       #586e75
 afg             #fdf6e3

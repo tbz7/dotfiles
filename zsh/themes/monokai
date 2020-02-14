@@ -1,6 +1,6 @@
 fg              #e8e8e3
 bg              #272822
-black           #383a3e
+black           #2d2e27
 red             #f92772
 green           #a6e22d
 yellow          #e6db74
@@ -8,7 +8,7 @@ blue            #66d9ef
 magenta         #ae81ff
 cyan            #66d9ef
 white           #e8e8e3
-bright_black    #575b61
+bright_black    #64645e
 bright_red      #f92772
 bright_green    #a6e22d
 bright_yellow   #e6db74
@@ -16,8 +16,6 @@ bright_blue     #66d9ef
 bright_magenta  #ae81ff
 bright_cyan     #66d9ef
 bright_white    #e8e8e3
-comment_fg      #75715e
-cursorline_bg   #383a3e
 visual_fg       #e8e8e3
 visual_bg       #575b61
 afg             #272822

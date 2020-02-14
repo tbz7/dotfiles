@@ -8,8 +8,8 @@ for x ({a,b,c}{f,b}g)
 PROMPT="%F{$afg}%K{$abg} %m %F{$abg}%K{$bbg}$r%F{$bfg} %33<…<%~ %k%F{$bbg}$r%f "
 RPROMPT="%(?..%F{$ebg}$l%F{$efg}%K{$ebg} ✗ %(4V.%F{$cbg}$l.))"
 RPROMPT+="%(4V.%(?.%F{$cbg}$l.)%F{$cfg}%K{$cbg} %4v .)%f%k"
-PROMPT2='%F{$theme[comment_fg]}↳  %f'
-RPROMPT2='%F{$theme[comment_fg]} %1^%f'
+PROMPT2='%8F↳  %f'
+RPROMPT2='%8F %1^%f'
 
 
 hook alarm prompt '.prompt.vcs'

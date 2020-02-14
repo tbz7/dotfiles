@@ -1,6 +1,6 @@
 fg              #99d1ce
 bg              #0c1014
-black           #091f2e
+black           #0d1a25
 red             #c23127
 green           #2aa889
 yellow          #edb443
@@ -16,8 +16,6 @@ bright_blue     #195466
 bright_magenta  #4e5166
 bright_cyan     #33859e
 bright_white    #d3ebe9
-comment_fg      #195466
-cursorline_bg   #11151c
 visual_fg       #99d1ce
 visual_bg       #0a3749
 afg             #99d1ce

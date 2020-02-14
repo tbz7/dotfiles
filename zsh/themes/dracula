@@ -16,8 +16,6 @@ bright_blue     #d6acff
 bright_magenta  #ff92df
 bright_cyan     #a4ffff
 bright_white    #ffffff
-comment_fg      #6272a4
-cursorline_bg   #424450
 visual_fg       #f8f8f2
 visual_bg       #44475a
 afg             #282a36

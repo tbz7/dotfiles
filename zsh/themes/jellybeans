@@ -1,6 +1,6 @@
 fg              #e8e8d3
 bg              #151515
-black           #444444
+black           #1c1c1c
 red             #cf6a4c
 green           #99ad6a
 yellow          #fad07a
@@ -8,7 +8,7 @@ blue            #8197bf
 magenta         #c6b6ee
 cyan            #8fbfdc
 white           #ccc5c4
-bright_black    #606060
+bright_black    #444444
 bright_red      #cf6a4c
 bright_green    #99ad6a
 bright_yellow   #fad07a
@@ -16,8 +16,6 @@ bright_blue     #8197bf
 bright_magenta  #c6b6ee
 bright_cyan     #8fbfdc
 bright_white    #e8e8d3
-comment_fg      #888888
-cursorline_bg   #1c1c1c
 visual_fg       #e8e8d3
 visual_bg       #404040
 afg             #151515
