@@ -38,7 +38,6 @@ if [[ $TERM == linux* ]] export NO_CUSTOM_FONT=true
 
 
 # theme
-zmodload zsh/mapfile
 function theme {
   [[ $1 == -s ]] && mapfile[$HOME/.theme]=$2 && shift
   [[ -f ~/.zsh/themes/$1 ]] || .warn "Invalid theme: $1" || return 1

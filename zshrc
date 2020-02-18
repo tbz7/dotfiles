@@ -1,21 +1,35 @@
 #-------------------------------------------------------------------------------
-# Shell
+# Imports
+#-------------------------------------------------------------------------------
+zmodload zsh/complist
+zmodload zsh/datetime
+zmodload zsh/mapfile
+
+autoload -U add-zle-hook-widget
+autoload -U add-zsh-hook
+autoload -U compinit
+autoload -U run-help && unalias -m run-help
+autoload -U zargs
+autoload -U zmv
+
+source ~/.zsh/lib.zsh
+
+
+#-------------------------------------------------------------------------------
+# Settings
 #-------------------------------------------------------------------------------
 HISTFILE=~/.zsh_history
 HISTSIZE=50000 SAVEHIST=50000
 ZLE_SPACE_SUFFIX_CHARS='&|'
 
 setopt appendhistory
+setopt autopushd
 setopt extendedglob
 setopt globstarshort
 setopt histignorealldups
 setopt histignorespace
 setopt interactivecomments
-
-autoload -U run-help && unalias -m run-help
-autoload -U zargs zmv
-
-zmodload zsh/complist
+setopt promptsubst
 
 
 #-------------------------------------------------------------------------------
@@ -94,7 +108,7 @@ alias pu='git -C ~/.zsh/.. submodule update -j 20 --init --remote --depth=1'
 alias up="${commands[brew]+bu;}pu"
 
 
-for f (~/.zsh/lib.zsh ~/.zshrc.local(N) ~/.zsh/modules/*.zsh) () { source $f }
+for f (~/.zshrc.local(N) ~/.zsh/modules/*.zsh) () { source $f }
 
 
 #-------------------------------------------------------------------------------
@@ -105,7 +119,7 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
-autoload -U compinit && compinit -C
+compinit -C
 
 
 #-------------------------------------------------------------------------------

@@ -1,5 +1,3 @@
-setopt promptsubst
-
 local x l='%(3V..)' r='%(3V..)'
 local efg='%(V.$theme[cfgi].$theme[efg])' ebg='%(V.$theme[cbgi].$theme[ebg])'
 for x ({a,b,c}{f,b}g)

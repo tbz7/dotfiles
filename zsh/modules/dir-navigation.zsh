@@ -1,5 +1,3 @@
-setopt autopushd
-
 hook chpwd dir-navigation 'forward_dirstack=()'
 
 widget dir-nav-prev '
