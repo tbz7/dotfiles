@@ -5,8 +5,6 @@ zmodload zsh/complist
 zmodload zsh/datetime
 zmodload zsh/mapfile
 
-autoload -U add-zle-hook-widget
-autoload -U add-zsh-hook
 autoload -U compinit
 autoload -U run-help && unalias -m run-help
 autoload -U zargs
@@ -41,7 +39,10 @@ bindkey $terminfo[kend] end-of-line
 bindkey $terminfo[khome] beginning-of-line
 bindkey -M menuselect $terminfo[kcbt] reverse-menu-complete
 bindkey '^u' backward-kill-line
+bindkey '^z' resume
 bindkey 'fd' vi-cmd-mode
+
+widget resume 'zle push-line; BUFFER=fg; zle accept-line'
 
 
 #-------------------------------------------------------------------------------
@@ -67,6 +68,12 @@ export LS_COLORS=${(j.:.)=:-'di=34' 'ow=34;40' 'ln=35' {or,mi}'=7;31'
 export MANPAGER="sh -c \"col -bx |\
     vim -R -c 'set ft=man nomod noma nolist nonu cc= ls=1|map q :q<CR>' -\""
 export PAGER='less'
+
+if [[ -n $TMUX ]]; then
+  hook preexec tmux-env '
+    eval $(tmux if -F "#{m:*Z*,#F}" "switchc; resizep -Z" switchc\; showenv -s)
+  '
+fi
 
 
 #-------------------------------------------------------------------------------
@@ -97,11 +104,9 @@ alias gds='git diff --stat'
 alias gl='git log --graph --format="%Cred%h%Creset %s %Cgreen(%cr) %Cblue<%an>"'
 alias gm='git difftool -g --dir-diff'
 alias gr='git rebase'
-alias kl="() { ps -eo user,pid,time,command | fzf -n4.. --min-height=15 \
-    --header-lines=1 --preview 'echo {}' --preview-window down:3:wrap \
-    | awk '{print \$2}' | xargs kill \$@ }"
 alias mmv='zmv -W'
 alias tm='tmux new-session -A -s main'
+alias v='vim +FZF'
 
 alias bu='brew update; brew upgrade; brew cleanup -s'
 alias pu='git -C ~/.zsh/.. submodule update -j 20 --init --remote --depth=1'
@@ -123,10 +128,15 @@ compinit -C
 
 
 #-------------------------------------------------------------------------------
-# Syntax highlighting
+# Plugins
 #-------------------------------------------------------------------------------
 if [[ -f ~/.zsh/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   source ~/.zsh/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh
   ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
   ZSH_HIGHLIGHT_STYLES[comment]='fg=8'
+fi
+
+if [[ -n $commands[fzf] && -d ~/.vim/pack/default/start/fzf/shell ]]; then
+  source ~/.vim/pack/default/start/fzf/shell/completion.zsh
+  source ~/.vim/pack/default/start/fzf/shell/key-bindings.zsh
 fi

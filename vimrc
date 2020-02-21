@@ -59,7 +59,7 @@ nnoremap <silent> <Leader>v :FZF<CR>
 " Plugins
 "-------------------------------------------------------------------------------
 let g:airline_focuslost_inactive = 1
-let g:airline_powerline_fonts = $NO_CUSTOM_FONT != 'true'
+let g:airline_powerline_fonts = 1
 let g:airline_skip_empty_sections = 1
 let ayucolor = 'dark'
 let g:jellybeans_use_term_italics = 1
