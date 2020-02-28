@@ -1,24 +1,19 @@
 function .term-colors.apply {
-  local c i=0
+  local x i=0 j=('' / '' / '' '')
   case $TERM in
     linux*)
-      for c (bg red green yellow blue magenta cyan fg)
-        .osc "P$((i++))${theme[$c]:1}";;
+      for x (bg red green yellow blue magenta cyan fg)
+        echo -n "\e]P$((i++))${theme[$x]:1}\e\\";;
     xterm*)
-      .osc 1337 "SetColors=selbg=${theme[visual_bg]:1}"
-      .osc 1337 "SetColors=selfg=${theme[visual_fg]:1}";|
+      echo -n "\e]1337;SetColors=selbg=${theme[visual_bg]:1}\e\\"
+      echo -n "\e]1337;SetColors=selfg=${theme[visual_fg]:1}\e\\";|
     *)
-      for c ({,bright_}{black,red,green,yellow,blue,magenta,cyan,white})
-        .osc-rgb 4 $((i++)) $theme[$c]
-      .osc-rgb 10 $theme[fg]
-      .osc-rgb 11 $theme[bg]
-      .osc-rgb 17 $theme[visual_bg]
-      .osc-rgb 19 $theme[visual_fg];;
+      for x ({,bright_}{black,red,green,yellow,blue,magenta,cyan,white})
+        echo -n "\e]4;$((i++));rgb:${(@j..)${(s..)theme[$x]:1}:^j}\e\\"
+      for i x (10 fg 11 bg 17 visual_bg 19 visual_fg)
+        echo -n "\e]$i;rgb:${(@j..)${(s..)theme[$x]:1}:^j}\e\\";;
   esac
 }
-
-function .osc { echo -n "\e]${(j.;.)@}\e\\" }
-function .osc-rgb { .osc ${@:1:-1} "rgb:${@[-1]:1:2}/${@[-1]:3:2}/${@[-1]:5}" }
 
 hook precmd term-colors '
   if [[ ${(kv)theme} == $__term_colors_check ]] return
