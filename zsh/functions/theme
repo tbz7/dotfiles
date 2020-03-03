@@ -1,0 +1,54 @@
+export THEME=${@[-1]:-${THEME:-${mapfile[$HOME/.theme]:-gruvbox}}} # vim: ft=zsh
+if [[ $1 == -s ]] mapfile[$HOME/.theme]=$THEME
+local -A theme=(${=mapfile[$HOME/.zsh/themes/$THEME]})
+
+
+# Color palette
+local palette x i=0 j=('' / '' / '' '')
+case $TERM in
+  linux*)
+    for x (bg red green yellow blue magenta cyan fg)
+      palette+="\e]P$((i++))${theme[$x]:1}\e\\\\";;
+  xterm*)
+    palette+="\e]1337;SetColors=selbg=${theme[visual_bg]:1}\e\\\\"
+    palette+="\e]1337;SetColors=selfg=${theme[visual_fg]:1}\e\\\\";|
+  *)
+    for x ({,bright_}{black,red,green,yellow,blue,magenta,cyan,white})
+      palette+="\e]4;$((i++));rgb:${(@j..)${(s..)theme[$x]:1}:^j}\e\\\\"
+    for i x (10 fg 11 bg 17 visual_bg 19 visual_fg)
+      palette+="\e]$i;rgb:${(@j..)${(s..)theme[$x]:1}:^j}\e\\\\";;
+esac
+
+
+# Prompt
+local efg="%(V.$theme[cfgi].$theme[efg])" ebg="%(V.$theme[cbgi].$theme[ebg])"
+for x ({a,b,c}{f,b}g)
+  local $x="%(V.$theme[${x}i].%(2V.$theme[${x}2].$theme[$x]))"
+
+PROMPT="%F{$afg}%K{$abg} %m %F{$abg}%K{$bbg}%F{$bfg} %33<…<%~ %k%F{$bbg}%f "
+RPROMPT="%(?..%F{$ebg}%F{$efg}%K{$ebg} ✗ %(3V.%F{$cbg}.))"
+RPROMPT+="%(3V.%(?.%F{$cbg}.)%F{$cfg}%K{$cbg} %3v .)%f%k"
+PROMPT2='%8F↳  %f'
+RPROMPT2='%8F %1^%f'
+
+hook alarm theme '.prompt.vcs'
+hook precmd theme "echo -n $palette:q; psvar[1,2]=('' ''); .prompt.vcs"
+hook zle-focus-gained theme 'psvar[1]=; zle reset-prompt'
+hook zle-focus-lost theme 'psvar[1]=1; zle reset-prompt'
+hook zle-keymap-select theme 'psvar[2]=${(M)KEYMAP:#vicmd}; zle reset-prompt'
+hook zle-line-finish theme 'psvar[1]=1; zle reset-prompt'
+
+function .prompt.vcs {
+  if (( __prompt_vcs_running++ )) return
+  async "{ ${(j. || .)${(@o)functions[(I).prompt.vcs-*]}} } 2> /dev/null" \
+      'if [[ $psvar[3] != $1 ]]; then
+         psvar[3]=$1
+         zle reset-prompt
+       fi
+       __prompt_vcs_running=0'
+}
+function .prompt.vcs-git {
+  local name=$(git symbolic-ref HEAD || git rev-parse --short HEAD)
+  [[ -n $name ]] && print -P " ${name##*/}${$(
+      git diff --name-only HEAD; git ls-files -o --exclude-standard):+ *}"
+}

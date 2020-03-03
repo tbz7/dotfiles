@@ -31,16 +31,6 @@ trap 'if [[ $funcstack[1] != fzf-* ]] run-hooks alarm' ALRM
 TMOUT=10
 
 
-# theme
-function theme {
-  [[ $1 == -s ]] && mapfile[$HOME/.theme]=$2 && shift
-  [[ -f ~/.zsh/themes/$1 ]] || .warn "Invalid theme: $1" || return 1
-  theme=(${=mapfile[$HOME/.zsh/themes/${THEME::=$1}]})
-}
-export THEME; declare -gA theme=()
-theme ${THEME:-${mapfile[$HOME/.theme]:-gruvbox}}
-
-
 # zle
 function widget {
   [[ $# == 2 ]] || .warn 'Usage: widget NAME BODY' || return 1

@@ -11,6 +11,7 @@ autoload -U zargs
 autoload -U zmv
 
 source ~/.zsh/lib.zsh
+autoload -U ~/.zsh/functions/theme && theme
 
 
 #-------------------------------------------------------------------------------
@@ -27,7 +28,6 @@ setopt globstarshort
 setopt histignorealldups
 setopt histignorespace
 setopt interactivecomments
-setopt promptsubst
 
 
 #-------------------------------------------------------------------------------
