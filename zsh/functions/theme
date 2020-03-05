@@ -31,12 +31,14 @@ RPROMPT+="%(3V.%(?.%F{$cbg}.)%F{$cfg}%K{$cbg} %3v .)%f%k"
 PROMPT2='%8F↳  %f'
 RPROMPT2='%8F %1^%f'
 
-hook alarm theme '.prompt.vcs'
 hook precmd theme "echo -n $palette:q; psvar[1,2]=('' ''); .prompt.vcs"
 hook zle-focus-gained theme 'psvar[1]=; zle reset-prompt'
 hook zle-focus-lost theme 'psvar[1]=1; zle reset-prompt'
 hook zle-keymap-select theme 'psvar[2]=${(M)KEYMAP:#vicmd}; zle reset-prompt'
 hook zle-line-finish theme 'psvar[1]=1; zle reset-prompt'
+
+trap 'if [[ $funcstack[1] != fzf-* ]] .prompt.vcs' ALRM
+TMOUT=10
 
 function .prompt.vcs {
   if (( __prompt_vcs_running++ )) return

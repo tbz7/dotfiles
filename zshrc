@@ -113,7 +113,9 @@ alias pu='git -C ~/.zsh/.. submodule update -j 20 --init --remote --depth=1'
 alias up="${commands[brew]+bu;}pu"
 
 
-for f (~/.zshrc.local(N) ~/.zsh/modules/*.zsh) () { source $f }
+source ~/.zshrc.local
+source ~/.zsh/modules/dir-navigation.zsh
+source ~/.zsh/modules/term.zsh
 
 
 #-------------------------------------------------------------------------------

@@ -18,7 +18,7 @@ fi
 # Focus events
 hook zle-line-init   focus 'echo -n "\e[?1004h"'
 hook zle-line-finish focus 'echo -n "\e[?1004l"'
-widget zle-focus-gained 'run-hooks zle-focus-gained'
-widget zle-focus-lost   'run-hooks zle-focus-lost'
+widget zle-focus-gained 'local f; for f ($zle_focus_gained_functions) $f'
+widget zle-focus-lost   'local f; for f ($zle_focus_lost_functions) $f'
 bindkey -M main  '\e[I' zle-focus-gained '\e[O' zle-focus-lost
 bindkey -M vicmd '\e[I' zle-focus-gained '\e[O' zle-focus-lost

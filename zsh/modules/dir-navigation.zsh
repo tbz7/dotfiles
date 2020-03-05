@@ -2,21 +2,21 @@ hook chpwd dir-navigation 'forward_dirstack=()'
 
 widget dir-nav-prev '
   if (( $#dirstack )); then
-    local saved=($PWD $forward_dirstack)
+    local f saved=($PWD $forward_dirstack)
     popd > /dev/null
     forward_dirstack=($saved)
 
-    run-hooks precmd
+    for f ($precmd_functions) $f
     zle reset-prompt
   fi
 '
 widget dir-nav-next '
   if (( $#forward_dirstack )); then
-    local saved=($forward_dirstack)
+    local f saved=($forward_dirstack)
     pushd $forward_dirstack[1] > /dev/null
     forward_dirstack=(${saved:1})
 
-    run-hooks precmd
+    for f ($precmd_functions) $f
     zle reset-prompt
   fi
 '
