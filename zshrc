@@ -10,15 +10,20 @@ autoload -U run-help && unalias -m run-help
 autoload -U zargs
 autoload -U zmv
 
-source ~/.zsh/lib.zsh
-autoload -U ~/.zsh/functions/theme && theme
+source ~/.zsh/include/lib.zsh
+source ~/.zsh/include/cd-widgets.zsh
+source ~/.zsh/include/prompt.zsh
+source ~/.zsh/include/term.zsh
+source ~/.zsh/include/theme.zsh
+
+if [[ -f ~/.zshrc.local ]] source ~/.zshrc.local
 
 
 #-------------------------------------------------------------------------------
 # Settings
 #-------------------------------------------------------------------------------
 HISTFILE=~/.zsh_history
-HISTSIZE=50000 SAVEHIST=50000
+HISTSIZE=10000 SAVEHIST=10000
 ZLE_SPACE_SUFFIX_CHARS='&|'
 
 setopt appendhistory
@@ -28,6 +33,7 @@ setopt globstarshort
 setopt histignorealldups
 setopt histignorespace
 setopt interactivecomments
+setopt promptsubst
 
 
 #-------------------------------------------------------------------------------
@@ -38,11 +44,13 @@ bindkey $terminfo[kdch1] delete-char
 bindkey $terminfo[kend] end-of-line
 bindkey $terminfo[khome] beginning-of-line
 bindkey -M menuselect $terminfo[kcbt] reverse-menu-complete
+bindkey '\e[1;3C' cd-forward
+bindkey '\e[1;3D' cd-back
 bindkey '^u' backward-kill-line
-bindkey '^z' resume
+bindkey '^z' fg
 bindkey 'fd' vi-cmd-mode
 
-widget resume 'zle push-line; BUFFER=fg; zle accept-line'
+widget fg 'zle push-line; BUFFER=fg zle accept-line'
 
 
 #-------------------------------------------------------------------------------
@@ -50,7 +58,7 @@ widget resume 'zle push-line; BUFFER=fg; zle accept-line'
 #-------------------------------------------------------------------------------
 typeset -U path fpath
 path=(~/bin ~/.zsh/bin $path)
-fpath=(~/.zsh/functions $fpath)
+fpath=(~/.zsh/completion $fpath)
 
 export CLICOLOR=true
 export COPYFILE_DISABLE=true
@@ -81,9 +89,7 @@ fi
 #-------------------------------------------------------------------------------
 alias ag='ag --color-line-number=34 --color-match=31 --color-path=32'
 alias grep='grep -E --color=auto'
-if ${commands[gls]:-ls} --color=auto &> /dev/null; then
-  alias ls="${commands[gls]:-ls} --color=auto"
-fi
+ls --color=auto &> /dev/null && alias ls='ls --color=auto'
 alias vidir='() { EDITOR="vim -S $1" vidir ${@:2} } =(echo setlocal tabstop=4)'
 alias zmv='noglob zmv'
 
@@ -111,11 +117,6 @@ alias v='vim +FZF'
 alias bu='brew update; brew upgrade; brew cleanup -s'
 alias pu='git -C ~/.zsh/.. submodule update -j 20 --init --remote --depth=1'
 alias up="${commands[brew]+bu;}pu"
-
-
-source ~/.zshrc.local
-source ~/.zsh/modules/dir-navigation.zsh
-source ~/.zsh/modules/term.zsh
 
 
 #-------------------------------------------------------------------------------
