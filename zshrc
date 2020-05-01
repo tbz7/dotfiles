@@ -50,7 +50,7 @@ bindkey '^u' backward-kill-line
 bindkey '^z' fg
 bindkey 'fd' vi-cmd-mode
 
-widget fg 'zle push-line; BUFFER=fg zle accept-line'
+widget fg 'zle push-line; BUFFER=fg; zle accept-line'
 
 
 #-------------------------------------------------------------------------------
@@ -77,11 +77,7 @@ export MANPAGER="sh -c \"col -bx |\
     vim -R -c 'set ft=man nomod noma nolist nonu cc= ls=1|map q :q<CR>' -\""
 export PAGER='less'
 
-if [[ -n $TMUX ]]; then
-  hook preexec tmux-env '
-    eval $(tmux if -F "#{m:*Z*,#F}" "switchc; resizep -Z" switchc\; showenv -s)
-  '
-fi
+if [[ -n $TMUX ]] hook preexec tmux-env 'eval $(tmux switchc -Z\; showenv -s)'
 
 
 #-------------------------------------------------------------------------------
