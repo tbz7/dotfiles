@@ -24,6 +24,7 @@ if [[ -f ~/.zshrc.local ]] source ~/.zshrc.local
 #-------------------------------------------------------------------------------
 HISTFILE=~/.zsh_history
 HISTSIZE=10000 SAVEHIST=10000
+ZLE_RPROMPT_INDENT=0
 ZLE_SPACE_SUFFIX_CHARS='&|'
 
 setopt appendhistory
