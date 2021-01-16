@@ -14,5 +14,5 @@ let &t_PS = "\<Esc>[200~"
 let &t_PE = "\<Esc>[201~"
 
 " Focus events
-let &t_ti .= "\<Esc>[?1004h"
-let &t_te .= "\<Esc>[?1004l"
+let &t_fe = "\<Esc>[?1004h"
+let &t_fd = "\<Esc>[?1004l"
